@@ -1,0 +1,45 @@
+<mat-sidenav-container>
+    <mat-sidenav #sidenav>
+        <mat-list>
+            <mat-list-item *ngFor = "let user of users">
+                <h3 matline>{{user}}</h3>
+            </mat-list-item>
+        </mat-list>
+    </mat-sidenav>
+  
+<button mat-fab (click)="sidenav.toggle()">
+    <mat-icon>person</mat-icon>
+</button>
+<div class = 'chat-container'>
+  <mat-card-content>
+      <mat-list>
+            <mat-list-item *ngFor = "let notice of notices " Class="chat-list-item">                   
+                    <h5 matLine> 
+                      <b>{{notice}}</b>
+                    </h5>                   
+            </mat-list-item>
+            <mat-list-item *ngFor = "let message of messages " [ngClass]="[(message.action === null && message.from.id === user.id)? 'chat-list-item': '']">
+              <img matListAvatar *ngIf="message.action === null" [src]="message.from.avatar">
+              <h4 matLine> 
+                <b>{{message.from.name}}</b>
+              </h4>
+              <p matLine *ngIf='message.action === null'>
+                  <span> {{message.content}} </span>                  
+              </p>
+              <p md-line *ngIf="message.action === action.JOINED" class="chat-notification">
+                  <span> <b>{{message.from.name}}</b> joined to the conversation. </span>
+              </p>
+            </mat-list-item>
+      </mat-list>
+      <div class="chat-footer-container">
+          <mat-icon>message</mat-icon>
+          <mat-form-field class = 'chat-input'>
+              <input matInput 
+                placeholder="Type your message"
+                [(ngModel)] = "messageContent"
+                (keyup.enter) = "sendMessage(messageContent)">
+          </mat-form-field>
+      </div>
+  </mat-card-content>
+</div>
+</mat-sidenav-container>
