@@ -16,7 +16,7 @@ export class ChatroomComponent implements OnInit {
   action = Action;
   user : User;
   users : string[];
-  userName :string;
+  userName :string = null;
   messages: Message[] = [];
   messageContent: string;
   notices : string[] = [];
@@ -27,7 +27,6 @@ export class ChatroomComponent implements OnInit {
 
   ngOnInit() {
     this.initIoConnection();
-    this.initModel();
   }
 
   private initModel(): void {
@@ -52,6 +51,12 @@ export class ChatroomComponent implements OnInit {
       .subscribe((usersList : string[]) => {
         this.users = usersList;
       });
+
+    this.socketService.getName()
+      .subscribe((name : string) => {
+        this.userName = name;
+        this.initModel();
+      });
     
     this.socketService.addUser()
       .subscribe((name : string) => {
@@ -61,7 +66,7 @@ export class ChatroomComponent implements OnInit {
 
     this.socketService.loseUser()
       .subscribe((name : string) => {
-        this.notices.push(name, ' left');
+        this.notices.push(name + ' left');
         var index = this.users.indexOf(name);
         this.users.splice(index, 1);
       });

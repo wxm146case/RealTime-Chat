@@ -17,13 +17,20 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import { AppComponent } from './app.component';
 import { ChatroomComponent } from './components/chatroom/chatroom.component';
 import { SocketService } from './service/socket.service'
-import { AppRoutingModule } from './app-routing.module';
+import { routing } from './app.routes';
+import { LoginComponent } from './components/login/login.component';
+import { SignComponent } from './components/sign/sign.component';
+import { AuthGuardService } from './service/auth-guard.service';
+import { AuthService } from './service/auth.service';
+import { HttpModule } from '@angular/http';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ChatroomComponent
+    ChatroomComponent,
+    LoginComponent,
+    SignComponent
   ],
   imports: [
     BrowserModule,
@@ -31,16 +38,17 @@ import { AppRoutingModule } from './app-routing.module';
     MatButtonModule,
     MatCheckboxModule,
     MatToolbarModule,
-    AppRoutingModule,
+    routing,
     MatCardModule,
     MatListModule,
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
     FormsModule,
-    MatSidenavModule
+    MatSidenavModule,
+    HttpModule
   ],
-  providers: [SocketService],
+  providers: [SocketService, AuthGuardService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

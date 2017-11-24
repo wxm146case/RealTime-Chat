@@ -55,6 +55,7 @@ module.exports = function(socket) {
     var usersList = userNames.get();
 
     socket.emit('init', usersList);
+    socket.emit('myName', name);
     socket.broadcast.emit('newUser', name);
 
     socket.on('message', (data) => {

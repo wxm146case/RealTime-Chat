@@ -30,6 +30,14 @@ export class SocketService {
     });
   }
 
+  getName(): Observable<any> {
+    return new Observable(observer => {
+      this.socket.on('myName', (name) => {
+        observer.next(name);
+      });
+    });
+  }
+
   addUser(): Observable<any> {
     return new Observable(observer => {
       this.socket.on('newUser', (name) => {

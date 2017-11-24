@@ -4,6 +4,18 @@
     z-index: 1;
 }
 
+.main-card {
+    height: 100%;  
+}
+
+.chat-list {
+    overflow: auto;
+    position: fixed;
+    top: 90px;
+    left: 25px;
+    right: 25px;
+    bottom: 120px;
+}
 
 .chat-container {
     position: fixed;

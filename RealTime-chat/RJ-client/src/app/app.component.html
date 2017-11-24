@@ -2,6 +2,14 @@
 <div style="text-align:center">
   <mat-toolbar color = "primary">
     <span>HappyHour</span>
+    <div class="button-row" *ngIf='AuthService.isUserAuthenticated()'>
+        <button mat-button>{{AuthService.getEmail()}}</button>
+        <button mat-button><a href="/logout">Log out</a></button>
+    </div>
+    <div class="button-row" *ngIf='!AuthService.isUserAuthenticated()'>
+        <button mat-button><a href="/login">Log in</a></button>
+        <button mat-button><a href="/signup">Sign up</a></button>
+    </div>
   </mat-toolbar>
 
   <div class="app-content">
