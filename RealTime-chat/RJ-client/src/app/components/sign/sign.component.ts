@@ -30,10 +30,7 @@ export class SignComponent implements OnInit {
         const confirm_password = this.user.confirm_password;
         const displayName = this.user.displayName;
     
-        console.log('email:', email);
-        console.log('password:', password);
-        console.log('confirm_password:', confirm_password);
-        console.log('displayName:', displayName);
+        
 
         if(password !== confirm_password) {
           return;
@@ -43,32 +40,39 @@ export class SignComponent implements OnInit {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         });
-    
-        this.http.post('/localhost:3000/auth/signup', {
-          email : this.user.email,
-          password : this.user.password,
-          displayName : this.user.displayName
+        
+        return this.http.post('/auth/signup', {
+          email : email,
+          password : password,
+          displayName : displayName
         }, {headers: headers}).toPromise()
                               .then(response => {
+                                console.log(response);
                                 if (response.status === 200) {
+                                  console.log('Signup succeed.');
                                   this.errors = {
                                     summary: null,
                                     email : null,
                                     displayName : null,
                                     password: null
                                   }
-                                  this.router.navigate(['/login']);                                  
-                                } else {
-                                  console.log('Signup failed.');
-                                  response.json().then(json => {
-                                    console.log(json);
-                                    const errors = json.errors ? json.errors : {};
-                                    errors.summary = json.message;
-                                  });
-                                }
+                                  this.router.navigate(['/login']);                                 
+                                } 
+                              }).catch((error:any) => {
+                                console.log('Signup failed.');
+                                const json = error.json();
+                                this.errors = json.errors ? json.errors : {
+                                  summary: null,
+                                  email : null,
+                                  displayName : null,
+                                  password: null
+                                };
+                                this.errors.summary = json.message;                                
+                                console.log(error);
                               });
         }
 
+        
   ngOnInit() {
   }
 

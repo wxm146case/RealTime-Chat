@@ -23,6 +23,7 @@ import { SignComponent } from './components/sign/sign.component';
 import { AuthGuardService } from './service/auth-guard.service';
 import { AuthService } from './service/auth.service';
 import { HttpModule } from '@angular/http';
+import { LogoutComponent } from './components/logout/logout.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { HttpModule } from '@angular/http';
     AppComponent,
     ChatroomComponent,
     LoginComponent,
-    SignComponent
+    SignComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,

@@ -3,6 +3,7 @@ import { Routes,CanActivate, RouterModule } from '@angular/router';
 import { ChatroomComponent } from './components/chatroom/chatroom.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignComponent } from './components/sign/sign.component';
+import { LogoutComponent} from './components/logout/logout.component';
 import { AuthGuardService as AuthGuard } from './service/auth-guard.service';
 
 const routes: Routes = [
@@ -16,12 +17,16 @@ const routes: Routes = [
         component : ChatroomComponent, canActivate:[ AuthGuard ]
     },
     {
-        path: 'Login', 
+        path: 'login', 
         component : LoginComponent
       },
       {
-        path: 'Signup', 
+        path: 'signup', 
         component : SignComponent
+      },
+      {
+          path: 'logout',
+          component : LogoutComponent
       },
       {
         path: '**', 

@@ -38,7 +38,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n<div style=\"text-align:center\">\n  <mat-toolbar color = \"primary\">\n    <span>HappyHour</span>\n    <div class=\"button-row\" *ngIf='AuthService.isUserAuthenticated()'>\n        <button mat-button>{{AuthService.getEmail()}}</button>\n        <button mat-button><a href=\"/logout\">Log out</a></button>\n    </div>\n    <div class=\"button-row\" *ngIf='!AuthService.isUserAuthenticated()'>\n        <button mat-button><a href=\"/login\">Log in</a></button>\n        <button mat-button><a href=\"/signup\">Sign up</a></button>\n    </div>\n  </mat-toolbar>\n\n  <div class=\"app-content\">\n    <router-outlet></router-outlet>\n  </div>\n</div>\n\n"
+module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n<div style=\"text-align:center\">\n  <mat-toolbar color = \"primary\">\n    <span>HappyHour</span>\n    <div class=\"button-row\" *ngIf='AuthService.isUserAuthenticated()'>\n        <button mat-button>{{AuthService.getEmail()}}</button>\n        <button mat-button ><a href=\"/logout\">Log out</a></button>\n    </div>\n    <div class=\"button-row\" *ngIf='!AuthService.isUserAuthenticated()'>\n        <button mat-button><a href=\"/login\">Log in</a></button>\n        <button mat-button><a href=\"/signup\">Sign up</a></button>\n    </div>\n  </mat-toolbar>\n\n  <div class=\"app-content\">\n    <router-outlet></router-outlet>\n  </div>\n</div>\n\n"
 
 /***/ }),
 
@@ -49,6 +49,7 @@ module.exports = "<!--The content below is only a placeholder and can be replace
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__service_auth_service__ = __webpack_require__("../../../../../src/app/service/auth.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -60,9 +61,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var AppComponent = (function () {
-    function AppComponent(AuthService) {
+    function AppComponent(AuthService, router) {
         this.AuthService = AuthService;
+        this.router = router;
         this.title = 'app';
     }
     AppComponent = __decorate([
@@ -71,7 +74,8 @@ var AppComponent = (function () {
             template: __webpack_require__("../../../../../src/app/app.component.html"),
             styles: [__webpack_require__("../../../../../src/app/app.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__service_auth_service__["a" /* AuthService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__service_auth_service__["a" /* AuthService */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]])
     ], AppComponent);
     return AppComponent;
 }());
@@ -106,12 +110,14 @@ var AppComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__service_auth_guard_service__ = __webpack_require__("../../../../../src/app/service/auth-guard.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__service_auth_service__ = __webpack_require__("../../../../../src/app/service/auth.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_logout_logout_component__ = __webpack_require__("../../../../../src/app/components/logout/logout.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -142,7 +148,8 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_12__app_component__["a" /* AppComponent */],
                 __WEBPACK_IMPORTED_MODULE_13__components_chatroom_chatroom_component__["a" /* ChatroomComponent */],
                 __WEBPACK_IMPORTED_MODULE_16__components_login_login_component__["a" /* LoginComponent */],
-                __WEBPACK_IMPORTED_MODULE_17__components_sign_sign_component__["a" /* SignComponent */]
+                __WEBPACK_IMPORTED_MODULE_17__components_sign_sign_component__["a" /* SignComponent */],
+                __WEBPACK_IMPORTED_MODULE_21__components_logout_logout_component__["a" /* LogoutComponent */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -180,7 +187,9 @@ var AppModule = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_chatroom_chatroom_component__ = __webpack_require__("../../../../../src/app/components/chatroom/chatroom.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_login_login_component__ = __webpack_require__("../../../../../src/app/components/login/login.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_sign_sign_component__ = __webpack_require__("../../../../../src/app/components/sign/sign.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__service_auth_guard_service__ = __webpack_require__("../../../../../src/app/service/auth-guard.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_logout_logout_component__ = __webpack_require__("../../../../../src/app/components/logout/logout.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__service_auth_guard_service__ = __webpack_require__("../../../../../src/app/service/auth-guard.service.ts");
+
 
 
 
@@ -194,15 +203,19 @@ var routes = [
     },
     {
         path: 'chatroom',
-        component: __WEBPACK_IMPORTED_MODULE_1__components_chatroom_chatroom_component__["a" /* ChatroomComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_4__service_auth_guard_service__["a" /* AuthGuardService */]]
+        component: __WEBPACK_IMPORTED_MODULE_1__components_chatroom_chatroom_component__["a" /* ChatroomComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_5__service_auth_guard_service__["a" /* AuthGuardService */]]
     },
     {
-        path: 'Login',
+        path: 'login',
         component: __WEBPACK_IMPORTED_MODULE_2__components_login_login_component__["a" /* LoginComponent */]
     },
     {
-        path: 'Signup',
+        path: 'signup',
         component: __WEBPACK_IMPORTED_MODULE_3__components_sign_sign_component__["a" /* SignComponent */]
+    },
+    {
+        path: 'logout',
+        component: __WEBPACK_IMPORTED_MODULE_4__components_logout_logout_component__["a" /* LogoutComponent */]
     },
     {
         path: '**',
@@ -245,8 +258,9 @@ module.exports = "<mat-sidenav-container>\n    <mat-sidenav #sidenav>\n        <
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChatroomComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__service_socket_service__ = __webpack_require__("../../../../../src/app/service/socket.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_action__ = __webpack_require__("../../../../../src/app/models/action.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__service_auth_service__ = __webpack_require__("../../../../../src/app/service/auth.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__service_socket_service__ = __webpack_require__("../../../../../src/app/service/socket.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_action__ = __webpack_require__("../../../../../src/app/models/action.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -259,11 +273,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var AVATAR_URL = 'https://api.adorable.io/avatars/285';
 var ChatroomComponent = (function () {
-    function ChatroomComponent(socketService) {
+    function ChatroomComponent(socketService, authService) {
         this.socketService = socketService;
-        this.action = __WEBPACK_IMPORTED_MODULE_2__models_action__["a" /* Action */];
+        this.authService = authService;
+        this.action = __WEBPACK_IMPORTED_MODULE_3__models_action__["a" /* Action */];
         this.userName = null;
         this.messages = [];
         this.notices = [];
@@ -333,7 +349,7 @@ var ChatroomComponent = (function () {
     };
     ChatroomComponent.prototype.sendNotification = function (params, action) {
         var message;
-        if (action === __WEBPACK_IMPORTED_MODULE_2__models_action__["a" /* Action */].JOINED) {
+        if (action === __WEBPACK_IMPORTED_MODULE_3__models_action__["a" /* Action */].JOINED) {
             message = {
                 from: this.user,
                 content: null,
@@ -348,7 +364,8 @@ var ChatroomComponent = (function () {
             template: __webpack_require__("../../../../../src/app/components/chatroom/chatroom.component.html"),
             styles: [__webpack_require__("../../../../../src/app/components/chatroom/chatroom.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__service_socket_service__["a" /* SocketService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__service_socket_service__["a" /* SocketService */],
+            __WEBPACK_IMPORTED_MODULE_1__service_auth_service__["a" /* AuthService */]])
     ], ChatroomComponent);
     return ChatroomComponent;
 }());
@@ -378,7 +395,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/login/login.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid\">\n  <div class=\"row hor_space_100\">\n    <div class=\"col-lg-6\"></div>\n    <div class=\"col-lg-6\">     \n      <div class=\"col-md-6 col-md-offset-3\">\n        <div class=\"panel panel-default\">\n          <div class=\"panel-heading\">\n              Login\n          </div>\n          <div class=\"alert alert-danger\" role=\"alert\" *ngIf=\"errors.summary !== null\">\n            <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\n            <span class=\"sr-only\">Error:</span>\n            {{errors.summary}}\n          </div>          \n          <div class=\"panel-body\">\n            <form\n              novalidate\n              action =\"/\"\n              (ngSubmit)=\"processForm()\"\n              #loginForm=\"ngForm\">\n              <div class=\"form-group\">\n                <div [ngClass]=\"{'has-error' : (emVar.touched || emVar.dirty) && !emVar.valid}\">\n                <label for=\"email\">Email Address</label>\n                <div class=\"alert alert-danger\" role=\"alert\" *ngIf=\"errors.email !== null\">\n                  <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\n                  <span class=\"sr-only\">Error:</span>\n                  {{errors.email}}\n                </div>\n                <input type=\"text\"\n                        name=\"email\"\n                        id=\"email\"\n                        class=\"form-control\"\n                        required\n                        pattern=\"[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$\"\n                      \n                        placeholder=\"Email (Required)\"\n                        [(ngModel)]=\"user.email\"\n                        #emVar=\"ngModel\">\n                        <span class=\"help-block\" *ngIf=\"(emVar.touched || emVar.dirty) && emVar.errors\">\n                          <span *ngIf=\"emVar.errors.required\">\n                            Please enter your email\n                          </span>\n                          \n                          <span *ngIf=\"emVar.errors.pattern\">\n                            Please enter a valid email address\n                          </span>\n                        </span>\n                </div>\n              </div>\n              <div class=\"form-group\">\n                <div [ngClass]=\"{'has-error': (pw1Var.touched || pw1Var.dirty) && !pw1Var.valid}\">\n                <label for=\"passowrd\">Password</label>\n                <div class=\"alert alert-danger\" role=\"alert\" *ngIf=\"errors.password !== null\">\n                  <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\n                  <span class=\"sr-only\">Error:</span>\n                  {{errors.password}}\n                </div> \n                <input type=\"password\"\n                        id=\"password\"\n                        name=\"password\"\n                        class=\"form-control\"\n                        required\n                        placeholder=\"Password (Required)\"\n                        [(ngModel)]=\"user.password\"\n                        #pw1Var=\"ngModel\"/>\n                        <span class=\"help-block\" *ngIf=\"(pw1Var.touched || pw1Var.dirty) && pw1Var.errors\">\n                          Please enter your password\n                        </span>\n                </div>\n              </div>\n              <div class=\"checkbox\">\n                <label>\n                  <input type=\"checkbox\">Keep me logged in.\n                </label>\n              </div>             \n              <div class=\"form-group\">\n               <span>\n               <button type=\"sumit\"\n                       class=\"btn btn-success btn_narrow\"\n                       [disabled]=\"!loginForm.valid\"\n                       >Login</button> \n               <button type=\"button\"\n                       class=\"btn btn-default btn_narrow\"\n                       (click)=\"cancel()\">Cancel</button>\n              </span>\n              </div>\n            </form>\n          </div>\n          <div class=\"panel-footer\">\n            Not Registerd? <a [routerLink]=\"['/register']\" href=\"\">Register Here</a><br>             \n          </div>\n        </div>\n      </div>  \n  </div>\n</div>"
+module.exports = "<div class=\"container-fluid\">\n  <div class=\"row hor_space_100\">\n    <div class=\"col-lg-6\"></div>\n    <div class=\"col-lg-6\">     \n      <div class=\"col-md-6 col-md-offset-3\">\n        <div class=\"panel panel-default\">\n          <div class=\"panel-heading\">\n              Login\n          </div>\n          <div class=\"alert alert-danger\" role=\"alert\" *ngIf=\"errors.summary !== null\">\n            <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\n            <span class=\"sr-only\">Error:</span>\n            {{errors.summary}}\n          </div>          \n          <div class=\"panel-body\">\n            <form\n              novalidate\n              action =\"/\"\n              (ngSubmit)=\"processForm()\"\n              #loginForm=\"ngForm\">\n              <div class=\"form-group\">\n                <div [ngClass]=\"{'has-error' : (emVar.touched || emVar.dirty) && !emVar.valid}\">\n                <label for=\"email\">Email Address</label>\n                <div class=\"alert alert-danger\" role=\"alert\" *ngIf=\"errors.email !== null\">\n                  <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\n                  <span class=\"sr-only\">Error:</span>\n                  {{errors.email}}\n                </div>\n                <input type=\"text\"\n                        name=\"email\"\n                        id=\"email\"\n                        class=\"form-control\"\n                        required\n                        pattern=\"[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$\"\n                      \n                        placeholder=\"Email (Required)\"\n                        [(ngModel)]=\"user.email\"\n                        #emVar=\"ngModel\">\n                        <span class=\"help-block\" *ngIf=\"(emVar.touched || emVar.dirty) && emVar.errors\">\n                          <span *ngIf=\"emVar.errors.required\">\n                            Please enter your email\n                          </span>\n                          \n                          <span *ngIf=\"emVar.errors.pattern\">\n                            Please enter a valid email address\n                          </span>\n                        </span>\n                </div>\n              </div>\n              <div class=\"form-group\">\n                <div [ngClass]=\"{'has-error': (pw1Var.touched || pw1Var.dirty) && !pw1Var.valid}\">\n                <label for=\"passowrd\">Password</label>\n                <div class=\"alert alert-danger\" role=\"alert\" *ngIf=\"errors.password !== null\">\n                  <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\n                  <span class=\"sr-only\">Error:</span>\n                  {{errors.password}}\n                </div> \n                <input type=\"password\"\n                        id=\"password\"\n                        name=\"password\"\n                        class=\"form-control\"\n                        required\n                        placeholder=\"Password (Required)\"\n                        [(ngModel)]=\"user.password\"\n                        #pw1Var=\"ngModel\"/>\n                        <span class=\"help-block\" *ngIf=\"(pw1Var.touched || pw1Var.dirty) && pw1Var.errors\">\n                          Please enter your password\n                        </span>\n                </div>\n              </div>\n              <div class=\"checkbox\">\n                <label>\n                  <input type=\"checkbox\">Keep me logged in.\n                </label>\n              </div>             \n              <div class=\"form-group\">\n               <span>\n               <button type=\"submit\"\n                       class=\"btn btn-success btn_narrow\"\n                       [disabled]=\"!loginForm.valid\"\n                       >Login</button> \n               <button type=\"button\"\n                       class=\"btn btn-default btn_narrow\"\n                       (click)=\"cancel()\">Cancel</button>\n              </span>\n              </div>\n            </form>\n          </div>\n          <div class=\"panel-footer\">\n            Not Registerd? <a [routerLink]=\"['/signup']\" href=\"/signup\">Register Here</a><br>             \n          </div>\n        </div>\n      </div>  \n  </div>\n</div>"
 
 /***/ }),
 
@@ -391,6 +408,8 @@ module.exports = "<div class=\"container-fluid\">\n  <div class=\"row hor_space_
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__service_auth_service__ = __webpack_require__("../../../../../src/app/service/auth.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_toPromise__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/toPromise.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_toPromise__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -400,6 +419,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -429,10 +449,11 @@ var LoginComponent = (function () {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         });
-        this.http.post('/localhost:3000/auth/login', {
+        var body = {
             email: this.user.email,
             password: this.user.password
-        }, { headers: headers }).toPromise()
+        };
+        this.http.post('/auth/login', body, { headers: headers }).toPromise()
             .then(function (response) {
             if (response.status === 200) {
                 _this.errors = {
@@ -440,19 +461,21 @@ var LoginComponent = (function () {
                     email: null,
                     password: null
                 };
-                response.json().then(function (json) {
-                    console.log(json);
-                    _this.AuthService.authenticateUser(json.token, email, json.displayName);
-                    _this.router.navigate(['']);
-                });
+                var json = response.json();
+                console.log(json);
+                _this.AuthService.authenticateUser(json.token, email, json.user.displayName);
+                _this.router.navigate(['']);
             }
-            else {
-                console.log('Login failed.');
-                response.json().then(function (json) {
-                    var errors = json.errors ? json.errors : {};
-                    errors.summary = json.message;
-                });
-            }
+        }).catch(function (error) {
+            console.log('Login failed');
+            var json = error.json();
+            _this.errors = {
+                summary: json.message,
+                email: null,
+                password: null
+            };
+            console.log(json);
+            console.log(error);
         });
     };
     LoginComponent.prototype.ngOnInit = function () {
@@ -468,6 +491,76 @@ var LoginComponent = (function () {
             __WEBPACK_IMPORTED_MODULE_3__service_auth_service__["a" /* AuthService */]])
     ], LoginComponent);
     return LoginComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/logout/logout.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/logout/logout.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  logout works!\n</p>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/logout/logout.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LogoutComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__service_auth_service__ = __webpack_require__("../../../../../src/app/service/auth.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var LogoutComponent = (function () {
+    function LogoutComponent(authService, router) {
+        this.authService = authService;
+        this.router = router;
+    }
+    LogoutComponent.prototype.ngOnInit = function () {
+        this.authService.deauthenticateUser();
+        this.router.navigate(['login']);
+    };
+    LogoutComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-logout',
+            template: __webpack_require__("../../../../../src/app/components/logout/logout.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/components/logout/logout.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__service_auth_service__["a" /* AuthService */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]])
+    ], LogoutComponent);
+    return LogoutComponent;
 }());
 
 
@@ -542,10 +635,6 @@ var SignComponent = (function () {
         var password = this.user.password;
         var confirm_password = this.user.confirm_password;
         var displayName = this.user.displayName;
-        console.log('email:', email);
-        console.log('password:', password);
-        console.log('confirm_password:', confirm_password);
-        console.log('displayName:', displayName);
         if (password !== confirm_password) {
             return;
         }
@@ -553,13 +642,15 @@ var SignComponent = (function () {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         });
-        this.http.post('/localhost:3000/auth/signup', {
-            email: this.user.email,
-            password: this.user.password,
-            displayName: this.user.displayName
+        return this.http.post('/auth/signup', {
+            email: email,
+            password: password,
+            displayName: displayName
         }, { headers: headers }).toPromise()
             .then(function (response) {
+            console.log(response);
             if (response.status === 200) {
+                console.log('Signup succeed.');
                 _this.errors = {
                     summary: null,
                     email: null,
@@ -568,14 +659,17 @@ var SignComponent = (function () {
                 };
                 _this.router.navigate(['/login']);
             }
-            else {
-                console.log('Signup failed.');
-                response.json().then(function (json) {
-                    console.log(json);
-                    var errors = json.errors ? json.errors : {};
-                    errors.summary = json.message;
-                });
-            }
+        }).catch(function (error) {
+            console.log('Signup failed.');
+            var json = error.json();
+            _this.errors = json.errors ? json.errors : {
+                summary: null,
+                email: null,
+                displayName: null,
+                password: null
+            };
+            _this.errors.summary = json.message;
+            console.log(error);
         });
     };
     SignComponent.prototype.ngOnInit = function () {

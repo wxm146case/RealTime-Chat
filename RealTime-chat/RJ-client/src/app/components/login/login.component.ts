@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { Http, Response, Headers } from "@angular/http";
 import { AuthService } from "../../service/auth.service";
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/operator/toPromise';
 
 @Component({
   selector: 'app-login',
@@ -20,12 +23,12 @@ export class LoginComponent implements OnInit {
     password: null
   }
 
+
   constructor(private router: Router,
               private http: Http,
               private AuthService: AuthService) { }
 
   processForm() {
-
     const email = this.user.email;
     const password = this.user.password;
 
@@ -36,11 +39,12 @@ export class LoginComponent implements OnInit {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     });
-
-    this.http.post('/localhost:3000/auth/login', {
+    const body = {
       email : this.user.email,
       password : this.user.password
-    }, {headers: headers}).toPromise()
+    }
+
+    this.http.post('/auth/login', body, {headers: headers}).toPromise()
                 .then(response => {
                   if (response.status === 200) {
                     this.errors = {
@@ -48,18 +52,21 @@ export class LoginComponent implements OnInit {
                       email : null,
                       password: null
                     }
-                    response.json().then(json => {
-                      console.log(json);
-                      this.AuthService.authenticateUser(json.token, email, json.displayName);
-                      this.router.navigate(['']);
-                    });
-                  } else {
-                    console.log('Login failed.');
-                    response.json().then(json => {
-                      const errors = json.errors ? json.errors : {};
-                      errors.summary = json.message;
-                    });
+                    const json = response.json();
+                    console.log(json);
+                    this.AuthService.authenticateUser(json.token, email, json.user.displayName);
+                    this.router.navigate(['']);                   
+                  } 
+                }).catch((error:any) => {
+                  console.log('Login failed');
+                  const json = error.json();
+                  this.errors = {
+                    summary: json.message,
+                    email : null,
+                    password: null
                   }
+                  console.log(json);
+                  console.log(error);
                 });
   }
   ngOnInit() {

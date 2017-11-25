@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AuthService } from '../../service/auth.service'
 import { SocketService } from '../../service/socket.service';
 import { Action } from '../../models/action';
 import { Message } from '../../models/message.model';
@@ -23,7 +24,8 @@ export class ChatroomComponent implements OnInit {
   ioConnection: any;
 
 
-  constructor(private socketService: SocketService) { }
+  constructor(private socketService: SocketService, 
+              private authService: AuthService) { }
 
   ngOnInit() {
     this.initIoConnection();
