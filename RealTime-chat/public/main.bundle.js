@@ -25,7 +25,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".app-content {\n  width: 100%;\n  height: 100%;\n  box-sizing: border-box;\n}\n\n.button-row {\n  right: 0;\n}", ""]);
+exports.push([module.i, ".app-content {\n  width: 100%;\n  height: 100%;\n  box-sizing: border-box;\n}\n\n.button-row {\n  right: 0;\n}\n\n.btn-group {\n  margin-left: auto;\n  margin-right: auto;\n}", ""]);
 
 // exports
 
@@ -38,7 +38,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n<div style=\"text-align:center\">\n  <mat-toolbar color = \"primary\">\n    <span>HappyHour</span>\n    <div class=\"button-row\" *ngIf='AuthService.isUserAuthenticated()'>\n        <button mat-button>{{AuthService.getEmail()}}</button>\n        <button mat-button ><a href=\"/logout\">Log out</a></button>\n    </div>\n    <div class=\"button-row\" *ngIf='!AuthService.isUserAuthenticated()'>\n        <button mat-button><a href=\"/login\">Log in</a></button>\n        <button mat-button><a href=\"/signup\">Sign up</a></button>\n    </div>\n  </mat-toolbar>\n\n  <div class=\"app-content\">\n    <router-outlet></router-outlet>\n  </div>\n</div>\n\n"
+module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n<div style=\"text-align:center\">\n  <mat-toolbar color = \"primary\">\n    <span>HappyHour</span>\n    <div class=\"btn-group\" role=\"group\" aria-pressed=\"true\" aria-label=\"...\" *ngIf='AuthService.isUserAuthenticated()'>\n      <button type=\"button\" class=\"btn btn-default\">{{AuthService.getEmail()}}</button>\n      <button type=\"button\" class=\"btn btn-default\"><a href=\"/logout\">Log out</a></button>\n    </div>\n    <div class=\"btn-group\" role=\"group\" aria-pressed=\"true\" aria-label=\"...\" *ngIf='!AuthService.isUserAuthenticated()'>\n      <button type=\"button\" class=\"btn btn-default\"><a href=\"/login\">Log in</a></button>\n      <button type=\"button\" class=\"btn btn-default\"><a href=\"/signup\">Sign up</a></button>\n    </div>\n  </mat-toolbar>\n\n  <div class=\"app-content\">\n    <router-outlet></router-outlet>\n  </div>\n</div>\n\n"
 
 /***/ }),
 
@@ -235,7 +235,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "[mat-fab] {\n    \n    right: 20%;\n    z-index: 1;\n}\n\n.main-card {\n    height: 100%;  \n}\n\n.chat-list {\n    overflow: auto;\n    position: fixed;\n    top: 90px;\n    left: 25px;\n    right: 25px;\n    bottom: 120px;\n}\n\n.chat-container {\n    position: fixed;\n    width: 100%; \n    height: 100%;  \n}\n\n.chat-list-item {\n    margin-top: 2px;\n    margin-bottom: 2px;\n    border-radius: 5px;\n    background-color: #E8EAF6;\n}\n\n.chat-input {\n    padding-top: 20px;\n    width: 80%; \n}\n\n.chat-footer-container {\n    position:fixed;\n    bottom:25px;\n    left:25px;\n    right:25px;\n}\n\nmat-sidenav {\n    width: 200px;\n    height: 100%;\n  }", ""]);
+exports.push([module.i, "[mat-fab] {\n    \n    right: 20%;\n    z-index: 1;\n}\n\n.delete {\n    right: 0;\n}\n\n.main-card {\n    height: 100%;  \n}\n\n.chat-list {\n    overflow: auto;\n    position: fixed;\n    top: 90px;\n    left: 25px;\n    right: 25px;\n    bottom: 120px;\n}\n\n.chat-container {\n    position: fixed;\n    width: 100%; \n    height: 100%;  \n}\n\n.chat-list-item {\n    margin-top: 2px;\n    margin-bottom: 2px;\n    border-radius: 5px;\n    background-color: #E8EAF6;\n}\n\n.chat-input {\n    padding-top: 20px;\n    width: 80%; \n}\n\n.chat-footer-container {\n    position:fixed;\n    bottom:25px;\n    left:25px;\n    right:25px;\n}\n\nmat-sidenav {\n    width: 200px;\n    height: 100%;\n  }", ""]);
 
 // exports
 
@@ -248,7 +248,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/chatroom/chatroom.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-sidenav-container>\n    <mat-sidenav #sidenav>\n        <mat-list>\n            <mat-list-item *ngFor = \"let user of users\">\n                <h3 matline>{{user}}</h3>\n            </mat-list-item>\n        </mat-list>\n    </mat-sidenav>\n  \n<button mat-fab (click)=\"sidenav.toggle()\">\n    <mat-icon>person</mat-icon>\n</button>\n<div class = 'chat-container'>\n  <mat-card-content class=\"main-card\">\n      <mat-list class=\"chat-list\">\n            <mat-list-item *ngFor = \"let notice of notices \" Class=\"chat-list-item\">                   \n                    <h5 matLine> \n                      <b>{{notice}}</b>\n                    </h5>                   \n            </mat-list-item>\n            <mat-list-item *ngFor = \"let message of messages \" [ngClass]=\"[(message.action === null && message.from.id === user.id)? 'chat-list-item': '']\">\n              <img matListAvatar *ngIf=\"message.action === null\" [src]=\"message.from.avatar\">\n              <h4 matLine> \n                <b>{{message.from.name}}</b>\n              </h4>\n              <p matLine *ngIf='message.action === null'>\n                  <span> {{message.content}} </span>                  \n              </p>\n              <p md-line *ngIf=\"message.action === action.JOINED\" class=\"chat-notification\">\n                  <span> <b>{{message.from.name}}</b> joined to the conversation. </span>\n              </p>\n            </mat-list-item>\n      </mat-list>\n      <div class=\"chat-footer-container\">\n          <mat-icon>message</mat-icon>\n          <mat-form-field class = 'chat-input'>\n              <input matInput \n                placeholder=\"Type your message\"\n                [(ngModel)] = \"messageContent\"\n                (keyup.enter) = \"sendMessage(messageContent)\">\n          </mat-form-field>\n      </div>\n  </mat-card-content>\n</div>\n</mat-sidenav-container>"
+module.exports = "<mat-sidenav-container>\n    <mat-sidenav #sidenav>\n        <mat-list>\n            <mat-list-item *ngFor = \"let user of users\">\n                <h3 matline>{{user}}</h3>\n                <button class = 'delete'>\n                    <mat-icon>delete forever</mat-icon>\n                </button>\n            </mat-list-item>\n        </mat-list>\n    </mat-sidenav>\n  \n<button mat-fab (click)=\"sidenav.toggle()\">\n    <mat-icon>person</mat-icon>\n</button>\n<div class = 'chat-container'>\n  <mat-card-content class=\"main-card\">\n      <mat-list class=\"chat-list\">\n            <mat-list-item *ngFor = \"let notice of notices \" Class=\"chat-list-item\">                   \n                    <h5 matLine> \n                      <b>{{notice}}</b>\n                    </h5>                   \n            </mat-list-item>\n            <mat-list-item *ngFor = \"let message of messages \" [ngClass]=\"[(message.from.id === user.id)? 'chat-list-item': '']\">\n              <img matListAvatar  [src]=\"message.from.avatar\">\n              <h4 matLine> \n                <b>{{message.from.name}}</b>\n              </h4>\n              <p matLine >\n                  <span> {{message.content}} </span>                  \n              </p>\n            </mat-list-item>\n      </mat-list>\n      <div class=\"chat-footer-container\">\n          <mat-icon>message</mat-icon>\n          <mat-form-field class = 'chat-input'>\n              <input matInput \n                placeholder=\"Type your message\"\n                [(ngModel)] = \"messageContent\"\n                (keyup.enter) = \"sendMessage(messageContent)\">\n          </mat-form-field>\n      </div>\n  </mat-card-content>\n</div>\n</mat-sidenav-container>"
 
 /***/ }),
 
@@ -260,7 +260,8 @@ module.exports = "<mat-sidenav-container>\n    <mat-sidenav #sidenav>\n        <
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__service_auth_service__ = __webpack_require__("../../../../../src/app/service/auth.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__service_socket_service__ = __webpack_require__("../../../../../src/app/service/socket.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_action__ = __webpack_require__("../../../../../src/app/models/action.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__("../../../http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -274,21 +275,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var AVATAR_URL = 'https://api.adorable.io/avatars/285';
 var ChatroomComponent = (function () {
-    function ChatroomComponent(socketService, authService) {
+    function ChatroomComponent(socketService, http, authService, router) {
         this.socketService = socketService;
+        this.http = http;
         this.authService = authService;
-        this.action = __WEBPACK_IMPORTED_MODULE_3__models_action__["a" /* Action */];
+        this.router = router;
+        this.users = [];
         this.userName = null;
         this.messages = [];
         this.notices = [];
     }
     ChatroomComponent.prototype.ngOnInit = function () {
+        var headers = new __WEBPACK_IMPORTED_MODULE_3__angular_http__["a" /* Headers */]({
+            'authorization': 'bearer ' + this.authService.getToken(),
+        });
+        this.http.post('/chatroom', { 'status': 'logged' }, { headers: headers }).toPromise()
+            .then(function (res) {
+            var json = res.json();
+            console.log(json);
+        }).catch(function (error) {
+            console.log(error);
+        });
         this.initIoConnection();
     };
     ChatroomComponent.prototype.initModel = function () {
         var randomId = this.getRandomId();
+        this.userName = this.authService.getDisplayName();
         this.user = {
             id: randomId,
             avatar: AVATAR_URL + "/" + randomId + ".png",
@@ -297,7 +312,9 @@ var ChatroomComponent = (function () {
     };
     ChatroomComponent.prototype.initIoConnection = function () {
         var _this = this;
-        this.socketService.init();
+        this.initModel();
+        console.log(this.userName);
+        this.socketService.init(this.userName);
         this.ioConnection = this.socketService.onMessage()
             .subscribe(function (message) {
             _this.messages.push(message);
@@ -305,19 +322,19 @@ var ChatroomComponent = (function () {
         this.socketService.onUserslist()
             .subscribe(function (usersList) {
             _this.users = usersList;
+            _this.users.push(_this.userName);
+            _this.notices.push(_this.userName + ' joined');
+            console.log(_this.users);
         });
-        this.socketService.getName()
-            .subscribe(function (name) {
-            _this.userName = name;
-            _this.initModel();
-        });
-        this.socketService.addUser()
+        this.socketService.newUser()
             .subscribe(function (name) {
             _this.users.push(name);
             _this.notices.push(name + ' joined');
+            console.log(_this.notices);
         });
         this.socketService.loseUser()
             .subscribe(function (name) {
+            console.log(name);
             _this.notices.push(name + ' left');
             var index = _this.users.indexOf(name);
             _this.users.splice(index, 1);
@@ -328,6 +345,7 @@ var ChatroomComponent = (function () {
         });
         this.socketService.onDisconnect()
             .subscribe(function () {
+            _this.socketService.beforeDisconnect(_this.userName);
             console.log('onDisconnect');
         });
     };
@@ -340,23 +358,16 @@ var ChatroomComponent = (function () {
         }
         var senddata = {
             from: this.user,
-            content: message,
-            action: null
+            content: message
         };
         this.socketService.send(senddata);
         this.messages.push(senddata);
         this.messageContent = null;
     };
-    ChatroomComponent.prototype.sendNotification = function (params, action) {
-        var message;
-        if (action === __WEBPACK_IMPORTED_MODULE_3__models_action__["a" /* Action */].JOINED) {
-            message = {
-                from: this.user,
-                content: null,
-                action: action
-            };
-        }
-        this.socketService.send(message);
+    ChatroomComponent.prototype.deleteUser = function (displayName) {
+        this.notices.push('kick out ' + displayName);
+        var index = this.users.indexOf(displayName);
+        this.users.splice(index, 1);
     };
     ChatroomComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
@@ -365,7 +376,9 @@ var ChatroomComponent = (function () {
             styles: [__webpack_require__("../../../../../src/app/components/chatroom/chatroom.component.css")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__service_socket_service__["a" /* SocketService */],
-            __WEBPACK_IMPORTED_MODULE_1__service_auth_service__["a" /* AuthService */]])
+            __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */],
+            __WEBPACK_IMPORTED_MODULE_1__service_auth_service__["a" /* AuthService */],
+            __WEBPACK_IMPORTED_MODULE_4__angular_router__["a" /* Router */]])
     ], ChatroomComponent);
     return ChatroomComponent;
 }());
@@ -382,7 +395,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".container-fluid {\n    margin-left: auto;\n    margin-right: auto;\n}", ""]);
 
 // exports
 
@@ -395,7 +408,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/login/login.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid\">\n  <div class=\"row hor_space_100\">\n    <div class=\"col-lg-6\"></div>\n    <div class=\"col-lg-6\">     \n      <div class=\"col-md-6 col-md-offset-3\">\n        <div class=\"panel panel-default\">\n          <div class=\"panel-heading\">\n              Login\n          </div>\n          <div class=\"alert alert-danger\" role=\"alert\" *ngIf=\"errors.summary !== null\">\n            <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\n            <span class=\"sr-only\">Error:</span>\n            {{errors.summary}}\n          </div>          \n          <div class=\"panel-body\">\n            <form\n              novalidate\n              action =\"/\"\n              (ngSubmit)=\"processForm()\"\n              #loginForm=\"ngForm\">\n              <div class=\"form-group\">\n                <div [ngClass]=\"{'has-error' : (emVar.touched || emVar.dirty) && !emVar.valid}\">\n                <label for=\"email\">Email Address</label>\n                <div class=\"alert alert-danger\" role=\"alert\" *ngIf=\"errors.email !== null\">\n                  <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\n                  <span class=\"sr-only\">Error:</span>\n                  {{errors.email}}\n                </div>\n                <input type=\"text\"\n                        name=\"email\"\n                        id=\"email\"\n                        class=\"form-control\"\n                        required\n                        pattern=\"[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$\"\n                      \n                        placeholder=\"Email (Required)\"\n                        [(ngModel)]=\"user.email\"\n                        #emVar=\"ngModel\">\n                        <span class=\"help-block\" *ngIf=\"(emVar.touched || emVar.dirty) && emVar.errors\">\n                          <span *ngIf=\"emVar.errors.required\">\n                            Please enter your email\n                          </span>\n                          \n                          <span *ngIf=\"emVar.errors.pattern\">\n                            Please enter a valid email address\n                          </span>\n                        </span>\n                </div>\n              </div>\n              <div class=\"form-group\">\n                <div [ngClass]=\"{'has-error': (pw1Var.touched || pw1Var.dirty) && !pw1Var.valid}\">\n                <label for=\"passowrd\">Password</label>\n                <div class=\"alert alert-danger\" role=\"alert\" *ngIf=\"errors.password !== null\">\n                  <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\n                  <span class=\"sr-only\">Error:</span>\n                  {{errors.password}}\n                </div> \n                <input type=\"password\"\n                        id=\"password\"\n                        name=\"password\"\n                        class=\"form-control\"\n                        required\n                        placeholder=\"Password (Required)\"\n                        [(ngModel)]=\"user.password\"\n                        #pw1Var=\"ngModel\"/>\n                        <span class=\"help-block\" *ngIf=\"(pw1Var.touched || pw1Var.dirty) && pw1Var.errors\">\n                          Please enter your password\n                        </span>\n                </div>\n              </div>\n              <div class=\"checkbox\">\n                <label>\n                  <input type=\"checkbox\">Keep me logged in.\n                </label>\n              </div>             \n              <div class=\"form-group\">\n               <span>\n               <button type=\"submit\"\n                       class=\"btn btn-success btn_narrow\"\n                       [disabled]=\"!loginForm.valid\"\n                       >Login</button> \n               <button type=\"button\"\n                       class=\"btn btn-default btn_narrow\"\n                       (click)=\"cancel()\">Cancel</button>\n              </span>\n              </div>\n            </form>\n          </div>\n          <div class=\"panel-footer\">\n            Not Registerd? <a [routerLink]=\"['/signup']\" href=\"/signup\">Register Here</a><br>             \n          </div>\n        </div>\n      </div>  \n  </div>\n</div>"
+module.exports = "<div class=\"container-fluid\">\n  <div class=\"row hor_space_100\">\n    <div class=\"col-lg-8\"></div>\n    <div class=\"col-lg-8\">     \n      <div class=\"col-md-12 col-md-offset-3\">\n        <div class=\"panel panel-default\">\n          <div class=\"panel-heading\">\n              Login\n          </div>\n          <div class=\"alert alert-danger\" role=\"alert\" *ngIf=\"errors.summary !== null\">\n            <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\n            <span class=\"sr-only\">Error:</span>\n            {{errors.summary}}\n          </div>          \n          <div class=\"panel-body\">\n            <form\n              novalidate\n              action =\"/\"\n              (ngSubmit)=\"processForm()\"\n              #loginForm=\"ngForm\">\n              <div class=\"form-group\">\n                <div [ngClass]=\"{'has-error' : (emVar.touched || emVar.dirty) && !emVar.valid}\">\n                <label for=\"email\">Email Address</label>\n                <div class=\"alert alert-danger\" role=\"alert\" *ngIf=\"errors.email !== null\">\n                  <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\n                  <span class=\"sr-only\">Error:</span>\n                  {{errors.email}}\n                </div>\n                <input type=\"text\"\n                        name=\"email\"\n                        id=\"email\"\n                        class=\"form-control\"\n                        required\n                        pattern=\"[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$\"\n                      \n                        placeholder=\"Email (Required)\"\n                        [(ngModel)]=\"user.email\"\n                        #emVar=\"ngModel\">\n                        <span class=\"help-block\" *ngIf=\"(emVar.touched || emVar.dirty) && emVar.errors\">\n                          <span *ngIf=\"emVar.errors.required\">\n                            Please enter your email\n                          </span>\n                          \n                          <span *ngIf=\"emVar.errors.pattern\">\n                            Please enter a valid email address\n                          </span>\n                        </span>\n                </div>\n              </div>\n              <div class=\"form-group\">\n                <div [ngClass]=\"{'has-error': (pw1Var.touched || pw1Var.dirty) && !pw1Var.valid}\">\n                <label for=\"passowrd\">Password</label>\n                <div class=\"alert alert-danger\" role=\"alert\" *ngIf=\"errors.password !== null\">\n                  <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\n                  <span class=\"sr-only\">Error:</span>\n                  {{errors.password}}\n                </div> \n                <input type=\"password\"\n                        id=\"password\"\n                        name=\"password\"\n                        class=\"form-control\"\n                        required\n                        placeholder=\"Password (Required)\"\n                        [(ngModel)]=\"user.password\"\n                        #pw1Var=\"ngModel\"/>\n                        <span class=\"help-block\" *ngIf=\"(pw1Var.touched || pw1Var.dirty) && pw1Var.errors\">\n                          Please enter your password\n                        </span>\n                </div>\n              </div>\n              <div class=\"checkbox\">\n                <label>\n                  <input type=\"checkbox\">Keep me logged in.\n                </label>\n              </div>             \n              <div class=\"form-group\">\n               <span>\n               <button type=\"submit\"\n                       class=\"btn btn-success btn_narrow\"\n                       [disabled]=\"!loginForm.valid\"\n                       >Login</button> \n               <button type=\"button\"\n                       class=\"btn btn-default btn_narrow\"\n                       (click)=\"cancel()\">Cancel</button>\n              </span>\n              </div>\n            </form>\n          </div>\n          <div class=\"panel-footer\">\n            Not Registerd? <a [routerLink]=\"['/signup']\" href=\"/signup\">Register Here</a><br>             \n          </div>\n        </div>\n      </div>  \n  </div>\n</div>"
 
 /***/ }),
 
@@ -588,7 +601,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/sign/sign.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid\">\n  <div class=\"row hor_space_100\">\n    <div class=\"col-md-6\"></div>\n    <div class=\"col-md-6\">\n      <div class=\"col-md-6 col-md-offset-3\">\n        <div class=\"panel panel-default\">\n          <div class=\"panel-heading\">\n            Register New User\n          </div>\n          <div class=\"alert alert-danger\" role=\"alert\" *ngIf=\"errors.summary !== null\">\n            <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\n            <span class=\"sr-only\">Error:</span>\n            {{errors.summary}}\n          </div> \n          <div class=\"panel-body\">\n            <form\n              novalidate\n              (ngSubmit)=\"processForm()\"\n              #registerForm=\"ngForm\">\n              \n              <div class=\"form-group\">\n                <div [ngClass]=\"{'has-error' : (emVar.touched || emVar.dirty) && !emVar.valid}\">\n                <label for=\"email\">Email Address</label>\n                <div class=\"alert alert-danger\" role=\"alert\" *ngIf=\"errors.email !== null\">\n                  <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\n                  <span class=\"sr-only\">Error:</span>\n                  {{errors.email}}\n                </div>\n                <input type=\"text\"\n                        name=\"email\"\n                        id=\"email\"\n                        class=\"form-control\"\n                        required\n                        pattern=\"[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$\"\n                      \n                        placeholder=\"Email (Required)\"\n                        [(ngModel)]=\"user.email\"\n                        #emVar=\"ngModel\">\n                        <span class=\"help-block\" *ngIf=\"(emVar.touched || emVar.dirty) && emVar.errors\">\n                          <span *ngIf=\"emVar.errors.required\">\n                            A email address is required\n                          </span>\n                          \n                          <span *ngIf=\"emVar.errors.pattern\">\n                            Please enter a valid email address\n                          </span>\n                        </span>\n                </div>\n              </div>\n\n              <div class=\"form-group\">\n                <div [ngClass]=\"{'has-error' : (disNameVar.touched || disNameVar.dirty) && !disNameVar.valid}\">\n                <label for=\"disName\">Display Name</label>\n                <div class=\"alert alert-danger\" role=\"alert\" *ngIf=\"errors.displayName !== null\">\n                  <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\n                  <span class=\"sr-only\">Error:</span>\n                  {{errors.displayName}}\n                </div>\n                <input type=\"text\"\n                        name=\"disName\"\n                        id=\"disName\"\n                        class=\"form-control\"\n                        required\n                        placeholder=\"Display Name (Required)\"\n                        [(ngModel)]=\"user.displayName\"\n                        #disNameVar=\"ngModel\">\n                        <span class=\"help-block\" *ngIf=\"(disNameVar.touched || disNameVar.dirty) && disNameVar.errors\">\n                          A display name is required\n                        </span>\n                </div>\n              </div>\n\n              <div class=\"form-group\">\n                <div [ngClass]=\"{'has-error' : (pw1Var.touched || pw1Var.dirty) && !pw1Var.valid}\">\n                <label for=\"password1\">Password</label>\n                <div class=\"alert alert-danger\" role=\"alert\" *ngIf=\"errors.password !== null\">\n                  <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\n                  <span class=\"sr-only\">Error:</span>\n                  {{errors.password}}\n                </div>\n                <input type=\"password\"\n                        id=\"password1\"\n                        name=\"password1\"\n                        class=\"form-control\"\n                        required\n                        placeholder=\"Password (Required)\"\n                        [(ngModel)]=\"user.password\"\n                        #pw1Var=\"ngModel\">\n                        <span class=\"help-block\" *ngIf=\"(pw1Var.touched || pw1Var.dirty) && pw1Var.errors\">\n                          A password is required\n                        </span>\n                </div>\n              </div>\n\n              <div class=\"form-group\">\n                <div [ngClass]=\"{'has-error' : (pw2Var.touched || pw2Var.dirty) && !pw2Var.valid}\">\n                <label for=\"confirm_password\">Confirm Password</label>\n                <input type=\"password\"\n                id=\"confirm_password\"\n                name=\"confirm_password\"\n                class=\"form-control\"\n                required\n                placeholder=\"Confirm Password (Required)\"\n                [(ngModel)]=\"user.confirm_password\"\n                #pw2Var=\"ngModel\">\n                <span class=\"help-block\" *ngIf=\"(pw2Var.touched || pw2Var.dirty) && pw2Var.errors\">\n                  Please confirm your password\n                </span>\n                </div>\n              </div>\n\n              <div *ngIf=\"user.password !== user.confirm_password\" class=\"alert alert-warning\">\n                Passwords Do Not Match\n              </div>\n\n              <div class=\"form-group\">\n              <span>\n              <button type=\"submit\"\n                     class=\"btn btn-success btn_narrow\"\n                     [disabled]=\"!registerForm.valid\"\n                     >Register</button> \n               <button type=\"button\"\n                     class=\"btn btn-default btn_narrow \"\n                     (click)=\"cancel()\">Cancel</button>\n              </span>\n              </div>\n\n            </form>\n          </div>\n          <div class=\"panel-footer\">\n            Register? <a [routerLink]=\"['']\" href=\"\">Login Here</a>\n          </div>\n        </div>\n      </div>\n    </div>\n\n  </div>\n</div>"
+module.exports = "<div class=\"container-fluid\">\n  <div class=\"row hor_space_100\">\n    <div class=\"col-md-8\"></div>\n    <div class=\"col-md-8\">\n      <div class=\"col-md-8 col-md-offset-3\">\n        <div class=\"panel panel-default\">\n          <div class=\"panel-heading\">\n            Register New User\n          </div>\n          <div class=\"alert alert-danger\" role=\"alert\" *ngIf=\"errors.summary !== null\">\n            <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\n            <span class=\"sr-only\">Error:</span>\n            {{errors.summary}}\n          </div> \n          <div class=\"panel-body\">\n            <form\n              novalidate\n              (ngSubmit)=\"processForm()\"\n              #registerForm=\"ngForm\">\n              \n              <div class=\"form-group\">\n                <div [ngClass]=\"{'has-error' : (emVar.touched || emVar.dirty) && !emVar.valid}\">\n                <label for=\"email\">Email Address</label>\n                <div class=\"alert alert-danger\" role=\"alert\" *ngIf=\"errors.email !== null\">\n                  <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\n                  <span class=\"sr-only\">Error:</span>\n                  {{errors.email}}\n                </div>\n                <input type=\"text\"\n                        name=\"email\"\n                        id=\"email\"\n                        class=\"form-control\"\n                        required\n                        pattern=\"[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$\"\n                      \n                        placeholder=\"Email (Required)\"\n                        [(ngModel)]=\"user.email\"\n                        #emVar=\"ngModel\">\n                        <span class=\"help-block\" *ngIf=\"(emVar.touched || emVar.dirty) && emVar.errors\">\n                          <span *ngIf=\"emVar.errors.required\">\n                            A email address is required\n                          </span>\n                          \n                          <span *ngIf=\"emVar.errors.pattern\">\n                            Please enter a valid email address\n                          </span>\n                        </span>\n                </div>\n              </div>\n\n              <div class=\"form-group\">\n                <div [ngClass]=\"{'has-error' : (disNameVar.touched || disNameVar.dirty) && !disNameVar.valid}\">\n                <label for=\"disName\">Display Name</label>\n                <div class=\"alert alert-danger\" role=\"alert\" *ngIf=\"errors.displayName !== null\">\n                  <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\n                  <span class=\"sr-only\">Error:</span>\n                  {{errors.displayName}}\n                </div>\n                <input type=\"text\"\n                        name=\"disName\"\n                        id=\"disName\"\n                        class=\"form-control\"\n                        required\n                        placeholder=\"Display Name (Required)\"\n                        [(ngModel)]=\"user.displayName\"\n                        #disNameVar=\"ngModel\">\n                        <span class=\"help-block\" *ngIf=\"(disNameVar.touched || disNameVar.dirty) && disNameVar.errors\">\n                          A display name is required\n                        </span>\n                </div>\n              </div>\n\n              <div class=\"form-group\">\n                <div [ngClass]=\"{'has-error' : (pw1Var.touched || pw1Var.dirty) && !pw1Var.valid}\">\n                <label for=\"password1\">Password</label>\n                <div class=\"alert alert-danger\" role=\"alert\" *ngIf=\"errors.password !== null\">\n                  <span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span>\n                  <span class=\"sr-only\">Error:</span>\n                  {{errors.password}}\n                </div>\n                <input type=\"password\"\n                        id=\"password1\"\n                        name=\"password1\"\n                        class=\"form-control\"\n                        required\n                        placeholder=\"Password (Required)\"\n                        [(ngModel)]=\"user.password\"\n                        #pw1Var=\"ngModel\">\n                        <span class=\"help-block\" *ngIf=\"(pw1Var.touched || pw1Var.dirty) && pw1Var.errors\">\n                          A password is required\n                        </span>\n                </div>\n              </div>\n\n              <div class=\"form-group\">\n                <div [ngClass]=\"{'has-error' : (pw2Var.touched || pw2Var.dirty) && !pw2Var.valid}\">\n                <label for=\"confirm_password\">Confirm Password</label>\n                <input type=\"password\"\n                id=\"confirm_password\"\n                name=\"confirm_password\"\n                class=\"form-control\"\n                required\n                placeholder=\"Confirm Password (Required)\"\n                [(ngModel)]=\"user.confirm_password\"\n                #pw2Var=\"ngModel\">\n                <span class=\"help-block\" *ngIf=\"(pw2Var.touched || pw2Var.dirty) && pw2Var.errors\">\n                  Please confirm your password\n                </span>\n                </div>\n              </div>\n\n              <div *ngIf=\"user.password !== user.confirm_password\" class=\"alert alert-warning\">\n                Passwords Do Not Match\n              </div>\n\n              <div class=\"form-group\">\n              <span>\n              <button type=\"submit\"\n                     class=\"btn btn-success btn_narrow\"\n                     [disabled]=\"!registerForm.valid\"\n                     >Register</button> \n               <button type=\"button\"\n                     class=\"btn btn-default btn_narrow \"\n                     (click)=\"cancel()\">Cancel</button>\n              </span>\n              </div>\n\n            </form>\n          </div>\n          <div class=\"panel-footer\">\n            Register? <a [routerLink]=\"['']\" href=\"\">Login Here</a>\n          </div>\n        </div>\n      </div>\n    </div>\n\n  </div>\n</div>"
 
 /***/ }),
 
@@ -689,21 +702,6 @@ var SignComponent = (function () {
 
 /***/ }),
 
-/***/ "../../../../../src/app/models/action.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Action; });
-var Action;
-(function (Action) {
-    Action[Action["JOINED"] = 0] = "JOINED";
-    Action[Action["LEFT"] = 1] = "LEFT";
-    Action[Action["RENAME"] = 2] = "RENAME";
-})(Action || (Action = {}));
-
-
-/***/ }),
-
 /***/ "../../../../../src/app/service/auth-guard.service.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -786,7 +784,7 @@ var AuthService = (function () {
         return localStorage.getItem('email');
     };
     AuthService.prototype.getDisplayName = function () {
-        return localStorage.getItem('DisplayName');
+        return localStorage.getItem('displayName');
     };
     AuthService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
@@ -821,11 +819,19 @@ var SERVER_URL = 'http://localhost:3000';
 var SocketService = (function () {
     function SocketService() {
     }
-    SocketService.prototype.init = function () {
+    SocketService.prototype.init = function (userName) {
         this.socket = io(SERVER_URL);
+        this.socket.emit('newUser', userName);
+        this.socket.on('hello', function (hello) {
+            console.log('hello recevied from server:' + hello);
+        });
     };
     SocketService.prototype.send = function (message) {
         this.socket.emit('message', message);
+    };
+    SocketService.prototype.beforeDisconnect = function (name) {
+        console.log('before called');
+        this.socket.emit('Disconnect', name);
     };
     SocketService.prototype.onUserslist = function () {
         var _this = this;
@@ -835,15 +841,7 @@ var SocketService = (function () {
             });
         });
     };
-    SocketService.prototype.getName = function () {
-        var _this = this;
-        return new __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__["a" /* Observable */](function (observer) {
-            _this.socket.on('myName', function (name) {
-                observer.next(name);
-            });
-        });
-    };
-    SocketService.prototype.addUser = function () {
+    SocketService.prototype.newUser = function () {
         var _this = this;
         return new __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__["a" /* Observable */](function (observer) {
             _this.socket.on('newUser', function (name) {
@@ -876,7 +874,9 @@ var SocketService = (function () {
     SocketService.prototype.onDisconnect = function () {
         var _this = this;
         return new __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__["a" /* Observable */](function (observer) {
-            _this.socket.on('disconnect', function () { return observer.next(); });
+            _this.socket.on('disconnect', function () {
+                return observer.next();
+            });
         });
     };
     SocketService = __decorate([

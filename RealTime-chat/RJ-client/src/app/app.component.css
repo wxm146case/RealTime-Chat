@@ -7,3 +7,8 @@
 .button-row {
   right: 0;
 }
+
+.btn-group {
+  margin-left: auto;
+  margin-right: auto;
+}

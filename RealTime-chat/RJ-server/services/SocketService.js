@@ -1,62 +1,25 @@
-var userNames = (function () {
-    var names = {};
-  
-    var claim = function (name) {
-      if (!name || names[name]) {
-        return false;
-      } else {
-        names[name] = true;
-        return true;
-      }
-    };
-  
-    // find the lowest unused "guest" name and claim it
-    var getGuestName = function () {
-      var name,
-        nextUserId = 1;
-  
-      do {
-        name = 'Guest ' + nextUserId;
-        nextUserId += 1;
-      } while (!claim(name));
-  
-      return name;
-    };
-  
-    // serialize claimed names as an array
-    var get = function () {
-      var res = [];
-      for (user in names) {
-        res.push(user);
-      }
-  
-      return res;
-    };
-  
-    var free = function (name) {
-      if (names[name]) {
-        delete names[name];
-      }
-    };
-  
-    return {
-      claim: claim,
-      free: free,
-      get: get,
-      getGuestName: getGuestName
-    };
-  }());
+
+var userNames = [];
+var userIdToUserName = {};
+
   
   
 
 module.exports = function(socket) {
+    socket.handshake;
+    
 
-    var name = userNames.getGuestName();
-    var usersList = userNames.get();
 
-    socket.emit('init', usersList);
-    socket.emit('myName', name);
-    socket.broadcast.emit('newUser', name);
+    socket.emit('init', userNames);
+
+    socket.on('newUser', (userName) => {
+      userNames.push(userName);
+      console.log(userNames);
+      console.log('socketId:' + socket.id);
+      userIdToUserName[socket.id] = userName;
+      socket.broadcast.emit('newUser', userName);
+    });
+
 
     socket.on('message', (data) => {
         console.log(JSON.stringify(data));
@@ -64,9 +27,12 @@ module.exports = function(socket) {
     });
 
     socket.on('disconnect', () => {
-        console.log('Client disconnected');
-        socket.broadcast.emit('loseUser', name);
-        userNames.free(name);
+        var userName = userIdToUserName[socket.id];
+        var index = userNames.indexOf(userName);
+        userNames.splice(index, 1);
+        socket.broadcast.emit('loseUser', userName);
+
+        console.log('Client disconnected');        
     });
 
 }

@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { AuthService } from '../../service/auth.service'
 import { SocketService } from '../../service/socket.service';
-import { Action } from '../../models/action';
+
 import { Message } from '../../models/message.model';
 import { User } from '../../models/user.model';
+import { Http, Response, Headers } from "@angular/http";
+import { Router } from "@angular/router";
 
 const AVATAR_URL = 'https://api.adorable.io/avatars/285';
 
@@ -14,25 +16,37 @@ const AVATAR_URL = 'https://api.adorable.io/avatars/285';
   styleUrls: ['./chatroom.component.css']
 })
 export class ChatroomComponent implements OnInit {
-  action = Action;
   user : User;
-  users : string[];
-  userName :string = null;
+  users : String[] = [];
+  userName :String = null;
   messages: Message[] = [];
   messageContent: string;
   notices : string[] = [];
   ioConnection: any;
 
 
-  constructor(private socketService: SocketService, 
-              private authService: AuthService) { }
+  constructor(private socketService: SocketService,
+              private http: Http, 
+              private authService: AuthService,
+              private router : Router) { }
 
   ngOnInit() {
+    const headers = new Headers( {
+      'authorization': 'bearer ' + this.authService.getToken(),
+    });
+    this.http.post('/chatroom', {'status' : 'logged'}, {headers: headers}).toPromise()
+                    .then((res) => {
+                      const json = res.json();
+                      console.log(json);
+                    }).catch((error: any) => {
+                      console.log(error);
+                    })
     this.initIoConnection();
   }
 
   private initModel(): void {
-    const randomId = this.getRandomId(); 
+    const randomId = this.getRandomId();
+    this.userName = this.authService.getDisplayName();     
     this.user = {
       id: randomId,
       avatar: `${AVATAR_URL}/${randomId}.png`,
@@ -42,7 +56,9 @@ export class ChatroomComponent implements OnInit {
 
 
   private initIoConnection(): void {
-    this.socketService.init();
+    this.initModel();
+    console.log(this.userName);
+    this.socketService.init(this.userName);
 
     this.ioConnection  = this.socketService.onMessage()
       .subscribe((message: Message) => {
@@ -52,22 +68,21 @@ export class ChatroomComponent implements OnInit {
     this.socketService.onUserslist()
       .subscribe((usersList : string[]) => {
         this.users = usersList;
-      });
-
-    this.socketService.getName()
-      .subscribe((name : string) => {
-        this.userName = name;
-        this.initModel();
+        this.users.push(this.userName);
+        this.notices.push(this.userName + ' joined');
+        console.log(this.users); 
       });
     
-    this.socketService.addUser()
+    this.socketService.newUser()
       .subscribe((name : string) => {
         this.users.push(name);
         this.notices.push(name + ' joined');
+        console.log(this.notices);
       });
 
     this.socketService.loseUser()
       .subscribe((name : string) => {
+        console.log(name);
         this.notices.push(name + ' left');
         var index = this.users.indexOf(name);
         this.users.splice(index, 1);
@@ -80,6 +95,7 @@ export class ChatroomComponent implements OnInit {
 
     this.socketService.onDisconnect()
       .subscribe(() => {
+        this.socketService.beforeDisconnect(this.userName);
         console.log('onDisconnect');
       });
   }
@@ -94,8 +110,7 @@ export class ChatroomComponent implements OnInit {
     }
     let senddata : Message = {
       from: this.user,
-      content: message,
-      action: null
+      content: message
     }
     this.socketService.send(senddata);
     this.messages.push(senddata);
@@ -103,18 +118,11 @@ export class ChatroomComponent implements OnInit {
     this.messageContent = null;
     }
 
-    public sendNotification(params: any, action: Action): void {
-      let message: Message;
-  
-      if (action === Action.JOINED) {
-        message = {
-          from: this.user,
-          content : null,
-          action: action
-        }
-      }   
-      this.socketService.send(message);
+    public deleteUser(displayName: string): void {
+      this.notices.push('kick out ' + displayName);
+      var index = this.users.indexOf(displayName);
+      this.users.splice(index, 1);
+      
     }
-
   }
 

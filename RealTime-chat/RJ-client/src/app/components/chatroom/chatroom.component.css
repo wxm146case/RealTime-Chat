@@ -4,6 +4,10 @@
     z-index: 1;
 }
 
+.delete {
+    right: 0;
+}
+
 .main-card {
     height: 100%;  
 }

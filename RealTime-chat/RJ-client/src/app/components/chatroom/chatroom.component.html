@@ -3,6 +3,9 @@
         <mat-list>
             <mat-list-item *ngFor = "let user of users">
                 <h3 matline>{{user}}</h3>
+                <button class = 'delete'>
+                    <mat-icon>delete forever</mat-icon>
+                </button>
             </mat-list-item>
         </mat-list>
     </mat-sidenav>
@@ -18,16 +21,13 @@
                       <b>{{notice}}</b>
                     </h5>                   
             </mat-list-item>
-            <mat-list-item *ngFor = "let message of messages " [ngClass]="[(message.action === null && message.from.id === user.id)? 'chat-list-item': '']">
-              <img matListAvatar *ngIf="message.action === null" [src]="message.from.avatar">
+            <mat-list-item *ngFor = "let message of messages " [ngClass]="[(message.from.id === user.id)? 'chat-list-item': '']">
+              <img matListAvatar  [src]="message.from.avatar">
               <h4 matLine> 
                 <b>{{message.from.name}}</b>
               </h4>
-              <p matLine *ngIf='message.action === null'>
+              <p matLine >
                   <span> {{message.content}} </span>                  
-              </p>
-              <p md-line *ngIf="message.action === action.JOINED" class="chat-notification">
-                  <span> <b>{{message.from.name}}</b> joined to the conversation. </span>
               </p>
             </mat-list-item>
       </mat-list>

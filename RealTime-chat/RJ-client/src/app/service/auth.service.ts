@@ -30,7 +30,7 @@ export class AuthService {
   }
 
   public getDisplayName():String {
-    return localStorage.getItem('DisplayName');
+    return localStorage.getItem('displayName');
   }
 
 }
