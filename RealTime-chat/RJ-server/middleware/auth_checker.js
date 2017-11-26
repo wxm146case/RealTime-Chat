@@ -3,7 +3,6 @@ const User = require('mongoose').model('User');
 const config = require('../config/config.json');
 
 module.exports = (req, res, next) => {
-  console.log(req.headers.authorization);
 
   if (!req.headers.authorization) {
     return res.status(401).end();
@@ -11,8 +10,6 @@ module.exports = (req, res, next) => {
 
   // Get the last part from an authorization header string like "bearer token-value".
   const token = req.headers.authorization.split(' ')[1];
-
-  console.log('auth_checker: token: ' + token);
 
   // Decode the token using the secret.
   return jwt.verify(token, config.jwtSecret, (err, decoded) => {

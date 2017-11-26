@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema({
     displayName: {
         type: String,
         index: { unique: true }
-    }
+    },
 });
 
 UserSchema.methods.comparePassword = function comparePassword(

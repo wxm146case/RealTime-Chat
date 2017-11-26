@@ -26,6 +26,12 @@ module.exports = function(socket) {
         socket.broadcast.emit('message', data);
     });
 
+    socket.on('deleteUser', (displayName) => {
+        var index = userNames.indexOf(displayName);
+        userNames.splice(index, 1);
+        socket.broadcast.emit('deleteUser', displayName);
+    })
+
     socket.on('disconnect', () => {
         var userName = userIdToUserName[socket.id];
         var index = userNames.indexOf(userName);

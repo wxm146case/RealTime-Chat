@@ -1,4 +1,3 @@
-var auth = require('./routes/auth');
 var bodyParser = require('body-parser');
 const express = require('express');
 
@@ -12,6 +11,7 @@ app.use(bodyParser.json());
 const path = require('path');
 
 const indexRouter = require('./routes/index');
+var auth = require('./routes/auth');
 
 app.use(passport.initialize());
 var localSignUpStrategy = require('./passport/signup_passport');

@@ -31,10 +31,6 @@ export class LoginComponent implements OnInit {
   processForm() {
     const email = this.user.email;
     const password = this.user.password;
-
-    console.log('email:', email);
-    console.log('password', password);
-
     const headers = new Headers( {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -53,7 +49,6 @@ export class LoginComponent implements OnInit {
                       password: null
                     }
                     const json = response.json();
-                    console.log(json);
                     this.AuthService.authenticateUser(json.token, email, json.user.displayName);
                     this.router.navigate(['']);                   
                   } 
@@ -65,7 +60,6 @@ export class LoginComponent implements OnInit {
                     email : null,
                     password: null
                   }
-                  console.log(json);
                   console.log(error);
                 });
   }

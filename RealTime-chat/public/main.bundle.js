@@ -248,7 +248,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/chatroom/chatroom.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-sidenav-container>\n    <mat-sidenav #sidenav>\n        <mat-list>\n            <mat-list-item *ngFor = \"let user of users\">\n                <h3 matline>{{user}}</h3>\n                <button class = 'delete'>\n                    <mat-icon>delete forever</mat-icon>\n                </button>\n            </mat-list-item>\n        </mat-list>\n    </mat-sidenav>\n  \n<button mat-fab (click)=\"sidenav.toggle()\">\n    <mat-icon>person</mat-icon>\n</button>\n<div class = 'chat-container'>\n  <mat-card-content class=\"main-card\">\n      <mat-list class=\"chat-list\">\n            <mat-list-item *ngFor = \"let notice of notices \" Class=\"chat-list-item\">                   \n                    <h5 matLine> \n                      <b>{{notice}}</b>\n                    </h5>                   \n            </mat-list-item>\n            <mat-list-item *ngFor = \"let message of messages \" [ngClass]=\"[(message.from.id === user.id)? 'chat-list-item': '']\">\n              <img matListAvatar  [src]=\"message.from.avatar\">\n              <h4 matLine> \n                <b>{{message.from.name}}</b>\n              </h4>\n              <p matLine >\n                  <span> {{message.content}} </span>                  \n              </p>\n            </mat-list-item>\n      </mat-list>\n      <div class=\"chat-footer-container\">\n          <mat-icon>message</mat-icon>\n          <mat-form-field class = 'chat-input'>\n              <input matInput \n                placeholder=\"Type your message\"\n                [(ngModel)] = \"messageContent\"\n                (keyup.enter) = \"sendMessage(messageContent)\">\n          </mat-form-field>\n      </div>\n  </mat-card-content>\n</div>\n</mat-sidenav-container>"
+module.exports = "<mat-sidenav-container>\n    <mat-sidenav #sidenav>\n        <mat-list>\n            <mat-list-item *ngFor = \"let user of users\">\n                <h3 matline>{{user}}</h3>\n                <button class = 'delete' (click) = \"deleteUser(user)\">\n                    <mat-icon>delete forever</mat-icon>\n                </button>\n            </mat-list-item>\n        </mat-list>\n    </mat-sidenav>\n  \n<button mat-fab (click)=\"sidenav.toggle()\">\n    <mat-icon>person</mat-icon>\n</button>\n<div class = 'chat-container'>\n  <mat-card-content class=\"main-card\">\n      <mat-list class=\"chat-list\">\n            <mat-list-item *ngFor = \"let notice of notices \" Class=\"chat-list-item\">                   \n                    <h5 matLine> \n                      <b>{{notice}}</b>\n                    </h5>                   \n            </mat-list-item>\n            <mat-list-item *ngFor = \"let message of messages \" [ngClass]=\"[(message.from.id === user.id)? 'chat-list-item': '']\">\n              <img matListAvatar  [src]=\"message.from.avatar\">\n              <h4 matLine> \n                <b>{{message.from.name}}</b>\n              </h4>\n              <p matLine >\n                  <span> {{message.content}} </span>                  \n              </p>\n            </mat-list-item>\n      </mat-list>\n      <div class=\"chat-footer-container\">\n          <mat-icon>message</mat-icon>\n          <mat-form-field class = 'chat-input'>\n              <input matInput \n                placeholder=\"Type your message\"\n                [(ngModel)] = \"messageContent\"\n                (keyup.enter) = \"sendMessage(messageContent)\">\n          </mat-form-field>\n      </div>\n  </mat-card-content>\n</div>\n</mat-sidenav-container>"
 
 /***/ }),
 
@@ -313,7 +313,6 @@ var ChatroomComponent = (function () {
     ChatroomComponent.prototype.initIoConnection = function () {
         var _this = this;
         this.initModel();
-        console.log(this.userName);
         this.socketService.init(this.userName);
         this.ioConnection = this.socketService.onMessage()
             .subscribe(function (message) {
@@ -324,19 +323,22 @@ var ChatroomComponent = (function () {
             _this.users = usersList;
             _this.users.push(_this.userName);
             _this.notices.push(_this.userName + ' joined');
-            console.log(_this.users);
         });
         this.socketService.newUser()
             .subscribe(function (name) {
             _this.users.push(name);
             _this.notices.push(name + ' joined');
-            console.log(_this.notices);
         });
         this.socketService.loseUser()
             .subscribe(function (name) {
-            console.log(name);
             _this.notices.push(name + ' left');
             var index = _this.users.indexOf(name);
+            _this.users.splice(index, 1);
+        });
+        this.socketService.kickUser()
+            .subscribe(function (displayName) {
+            _this.notices.push('kick out ' + displayName);
+            var index = _this.users.indexOf(displayName);
             _this.users.splice(index, 1);
         });
         this.socketService.onConnect()
@@ -345,7 +347,6 @@ var ChatroomComponent = (function () {
         });
         this.socketService.onDisconnect()
             .subscribe(function () {
-            _this.socketService.beforeDisconnect(_this.userName);
             console.log('onDisconnect');
         });
     };
@@ -356,6 +357,16 @@ var ChatroomComponent = (function () {
         if (!message) {
             return;
         }
+        var headers = new __WEBPACK_IMPORTED_MODULE_3__angular_http__["a" /* Headers */]({
+            'authorization': 'bearer ' + this.authService.getToken(),
+        });
+        this.http.post('/chatroom', { 'status': 'logged' }, { headers: headers }).toPromise()
+            .then(function (res) {
+            var json = res.json();
+            console.log(json);
+        }).catch(function (error) {
+            console.log(error);
+        });
         var senddata = {
             from: this.user,
             content: message
@@ -365,9 +376,22 @@ var ChatroomComponent = (function () {
         this.messageContent = null;
     };
     ChatroomComponent.prototype.deleteUser = function (displayName) {
+        var _this = this;
         this.notices.push('kick out ' + displayName);
         var index = this.users.indexOf(displayName);
         this.users.splice(index, 1);
+        this.socketService.deleteUser(displayName);
+        var headers = new __WEBPACK_IMPORTED_MODULE_3__angular_http__["a" /* Headers */]({
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        });
+        this.http.post('/auth/delete', { displayName: displayName }, { headers: headers }).toPromise()
+            .then(function (res) {
+            var json = res.json();
+            _this.router.navigate(['/logout']);
+        }).catch(function (error) {
+            console.log(error);
+        });
     };
     ChatroomComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
@@ -456,8 +480,6 @@ var LoginComponent = (function () {
         var _this = this;
         var email = this.user.email;
         var password = this.user.password;
-        console.log('email:', email);
-        console.log('password', password);
         var headers = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Headers */]({
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -475,7 +497,6 @@ var LoginComponent = (function () {
                     password: null
                 };
                 var json = response.json();
-                console.log(json);
                 _this.AuthService.authenticateUser(json.token, email, json.user.displayName);
                 _this.router.navigate(['']);
             }
@@ -487,7 +508,6 @@ var LoginComponent = (function () {
                 email: null,
                 password: null
             };
-            console.log(json);
             console.log(error);
         });
     };
@@ -661,7 +681,6 @@ var SignComponent = (function () {
             displayName: displayName
         }, { headers: headers }).toPromise()
             .then(function (response) {
-            console.log(response);
             if (response.status === 200) {
                 console.log('Signup succeed.');
                 _this.errors = {
@@ -829,9 +848,8 @@ var SocketService = (function () {
     SocketService.prototype.send = function (message) {
         this.socket.emit('message', message);
     };
-    SocketService.prototype.beforeDisconnect = function (name) {
-        console.log('before called');
-        this.socket.emit('Disconnect', name);
+    SocketService.prototype.deleteUser = function (displayName) {
+        this.socket.emit('deleteUser', displayName);
     };
     SocketService.prototype.onUserslist = function () {
         var _this = this;
@@ -854,6 +872,14 @@ var SocketService = (function () {
         return new __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__["a" /* Observable */](function (observer) {
             _this.socket.on('loseUser', function (name) {
                 observer.next(name);
+            });
+        });
+    };
+    SocketService.prototype.kickUser = function () {
+        var _this = this;
+        return new __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__["a" /* Observable */](function (observer) {
+            _this.socket.on('deleteUser', function (displayName) {
+                observer.next(displayName);
             });
         });
     };

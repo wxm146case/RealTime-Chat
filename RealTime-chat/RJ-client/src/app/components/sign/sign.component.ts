@@ -47,7 +47,6 @@ export class SignComponent implements OnInit {
           displayName : displayName
         }, {headers: headers}).toPromise()
                               .then(response => {
-                                console.log(response);
                                 if (response.status === 200) {
                                   console.log('Signup succeed.');
                                   this.errors = {

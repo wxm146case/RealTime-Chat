@@ -24,11 +24,9 @@ export class SocketService {
     this.socket.emit('message', message);
   }
 
-  public  beforeDisconnect(name: String):void {
-    console.log('before called');
-    this.socket.emit('Disconnect', name);
+  public deleteUser(displayName: string): void {
+    this.socket.emit('deleteUser', displayName);
   }
-
 
 
   onUserslist(): Observable<any> {
@@ -52,6 +50,14 @@ export class SocketService {
     return new Observable(observer => {
       this.socket.on('loseUser', (name) => {
         observer.next(name);
+      });
+    });
+  }
+
+  kickUser(): Observable<any> {
+    return new Observable(observer => {
+      this.socket.on('deleteUser', (displayName) => {
+        observer.next(displayName);
       });
     });
   }

@@ -57,7 +57,6 @@ export class ChatroomComponent implements OnInit {
 
   private initIoConnection(): void {
     this.initModel();
-    console.log(this.userName);
     this.socketService.init(this.userName);
 
     this.ioConnection  = this.socketService.onMessage()
@@ -70,21 +69,25 @@ export class ChatroomComponent implements OnInit {
         this.users = usersList;
         this.users.push(this.userName);
         this.notices.push(this.userName + ' joined');
-        console.log(this.users); 
       });
     
     this.socketService.newUser()
       .subscribe((name : string) => {
         this.users.push(name);
         this.notices.push(name + ' joined');
-        console.log(this.notices);
       });
 
     this.socketService.loseUser()
       .subscribe((name : string) => {
-        console.log(name);
         this.notices.push(name + ' left');
         var index = this.users.indexOf(name);
+        this.users.splice(index, 1);
+      });
+
+    this.socketService.kickUser()
+      .subscribe((displayName : string) => {
+        this.notices.push('kick out ' + displayName);
+        var index = this.users.indexOf(displayName);
         this.users.splice(index, 1);
       });
 
@@ -95,7 +98,6 @@ export class ChatroomComponent implements OnInit {
 
     this.socketService.onDisconnect()
       .subscribe(() => {
-        this.socketService.beforeDisconnect(this.userName);
         console.log('onDisconnect');
       });
   }
@@ -108,13 +110,24 @@ export class ChatroomComponent implements OnInit {
     if (!message) {
       return;
     }
+    const headers = new Headers( {
+      'authorization': 'bearer ' + this.authService.getToken(),
+    });
+    
+    this.http.post('/chatroom', {'status' : 'logged'}, {headers: headers}).toPromise()
+    .then((res) => {
+      const json = res.json();
+      console.log(json);
+    }).catch((error: any) => {
+      console.log(error);
+    })
+
     let senddata : Message = {
       from: this.user,
       content: message
     }
     this.socketService.send(senddata);
     this.messages.push(senddata);
-    
     this.messageContent = null;
     }
 
@@ -122,7 +135,20 @@ export class ChatroomComponent implements OnInit {
       this.notices.push('kick out ' + displayName);
       var index = this.users.indexOf(displayName);
       this.users.splice(index, 1);
-      
+      this.socketService.deleteUser(displayName);
+
+      const headers = new Headers( {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      });
+
+      this.http.post('/auth/delete', {displayName : displayName}, {headers: headers}).toPromise()
+      .then((res) => {
+        const json = res.json();
+        this.router.navigate(['/logout']); 
+      }).catch((error: any) => {
+        console.log(error);
+      })
     }
   }
 

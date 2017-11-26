@@ -2,6 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 const validator = require('validator');
+const User = require('mongoose').model('User');
 
 router.post('/signup', (req, res, next) => {
   const validationResult = validateSignupForm(req.body);
@@ -44,6 +45,20 @@ router.post('/signup', (req, res, next) => {
   })(req, res, next);
 });
 
+router.post('/delete', (req, res) => {
+    User.findOneAndRemove(req.body.displayName, (userErr, user) => {
+      if (userErr || !user) {
+        return res.status(401).end();
+      }
+      console.log(req.body.displayName + ' deleted');
+      return res.status(200).json({
+        message:'you have been kicked out'
+      });    
+    });
+});
+
+
+
 router.post('/login', (req, res, next) => {
   const validationResult = validateLoginForm(req.body);
   if (!validationResult.success) {
@@ -79,7 +94,6 @@ router.post('/login', (req, res, next) => {
 });
 
 function validateSignupForm(payload) {
-  console.log(payload);
   const errors = {};
   let isFormValid = true;
   let message = '';
@@ -106,7 +120,6 @@ function validateSignupForm(payload) {
 }
 
 function validateLoginForm(payload) {
-  console.log(payload);
   const errors = {};
   let isFormValid = true;
   let message = '';
