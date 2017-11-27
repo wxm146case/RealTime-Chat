@@ -60,7 +60,6 @@ export class LoginComponent implements OnInit {
                     email : null,
                     password: null
                   }
-                  console.log(error);
                 });
   }
   ngOnInit() {

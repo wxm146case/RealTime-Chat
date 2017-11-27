@@ -46,11 +46,13 @@ router.post('/signup', (req, res, next) => {
 });
 
 router.post('/delete', (req, res) => {
-    User.findOneAndRemove(req.body.displayName, (userErr, user) => {
+    console.log(req.body.displayName + ' deleted');
+    var wherestr = {'displayName' : req.body.displayName};
+    User.remove(wherestr, (userErr, user) => {
+      console.log('find delete user:' + user);
       if (userErr || !user) {
         return res.status(401).end();
       }
-      console.log(req.body.displayName + ' deleted');
       return res.status(200).json({
         message:'you have been kicked out'
       });    

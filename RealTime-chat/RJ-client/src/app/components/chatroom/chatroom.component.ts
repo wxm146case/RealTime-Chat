@@ -18,7 +18,7 @@ const AVATAR_URL = 'https://api.adorable.io/avatars/285';
 export class ChatroomComponent implements OnInit {
   user : User;
   users : String[] = [];
-  userName :String = null;
+  userName :String = this.authService.getDisplayName();
   userRole : String = this.authService.getRole();
   adminRole : String = 'admin';
   messages: Message[] = [];
@@ -41,14 +41,13 @@ export class ChatroomComponent implements OnInit {
                       const json = res.json();
                       console.log(json);
                     }).catch((error: any) => {
-                      console.log(error);
+                      
                     })
     this.initIoConnection();
   }
 
   private initModel(): void {
-    const randomId = this.getRandomId();
-    this.userName = this.authService.getDisplayName();    
+    const randomId = this.getRandomId();   
     this.user = {
       id: randomId,
       avatar: `${AVATAR_URL}/${randomId}.png`,
@@ -118,10 +117,10 @@ export class ChatroomComponent implements OnInit {
     
     this.http.post('/chatroom', {'status' : 'logged'}, {headers: headers}).toPromise()
     .then((res) => {
-      const json = res.json();
-      console.log(json);
+  
     }).catch((error: any) => {
-      console.log(error);
+      this.router.navigate(['/logout']);    
+      console.log(error); 
     })
 
     let senddata : Message = {
@@ -146,8 +145,7 @@ export class ChatroomComponent implements OnInit {
 
       this.http.post('/auth/delete', {displayName : displayName}, {headers: headers}).toPromise()
       .then((res) => {
-        const json = res.json();
-        this.router.navigate(['/logout']); 
+        console.log(res);
       }).catch((error: any) => {
         console.log(error);
       })

@@ -3,7 +3,6 @@ const User = require('mongoose').model('User');
 const config = require('../config/config.json');
 
 module.exports = (req, res, next) => {
-
   if (!req.headers.authorization) {
     return res.status(401).end();
   }
@@ -18,7 +17,7 @@ module.exports = (req, res, next) => {
     // Check if a user exists.
     return User.findById(decoded.sub, (userErr, user) => {
       if (userErr || !user) {
-        return res.status(401).end();
+        return res.status(409).end();
       }
       console.log('auth_Checker pass');
       return next();

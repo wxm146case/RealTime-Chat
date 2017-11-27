@@ -284,7 +284,7 @@ var ChatroomComponent = (function () {
         this.authService = authService;
         this.router = router;
         this.users = [];
-        this.userName = null;
+        this.userName = this.authService.getDisplayName();
         this.userRole = this.authService.getRole();
         this.adminRole = 'admin';
         this.messages = [];
@@ -299,13 +299,11 @@ var ChatroomComponent = (function () {
             var json = res.json();
             console.log(json);
         }).catch(function (error) {
-            console.log(error);
         });
         this.initIoConnection();
     };
     ChatroomComponent.prototype.initModel = function () {
         var randomId = this.getRandomId();
-        this.userName = this.authService.getDisplayName();
         this.user = {
             id: randomId,
             avatar: AVATAR_URL + "/" + randomId + ".png",
@@ -356,6 +354,7 @@ var ChatroomComponent = (function () {
         return Math.floor(Math.random() * (1000000)) + 1;
     };
     ChatroomComponent.prototype.sendMessage = function (message) {
+        var _this = this;
         if (!message) {
             return;
         }
@@ -364,9 +363,8 @@ var ChatroomComponent = (function () {
         });
         this.http.post('/chatroom', { 'status': 'logged' }, { headers: headers }).toPromise()
             .then(function (res) {
-            var json = res.json();
-            console.log(json);
         }).catch(function (error) {
+            _this.router.navigate(['/logout']);
             console.log(error);
         });
         var senddata = {
@@ -378,7 +376,6 @@ var ChatroomComponent = (function () {
         this.messageContent = null;
     };
     ChatroomComponent.prototype.deleteUser = function (displayName) {
-        var _this = this;
         this.notices.push('kick out ' + displayName);
         var index = this.users.indexOf(displayName);
         this.users.splice(index, 1);
@@ -389,8 +386,7 @@ var ChatroomComponent = (function () {
         });
         this.http.post('/auth/delete', { displayName: displayName }, { headers: headers }).toPromise()
             .then(function (res) {
-            var json = res.json();
-            _this.router.navigate(['/logout']);
+            console.log(res);
         }).catch(function (error) {
             console.log(error);
         });
@@ -510,7 +506,6 @@ var LoginComponent = (function () {
                 email: null,
                 password: null
             };
-            console.log(error);
         });
     };
     LoginComponent.prototype.ngOnInit = function () {
