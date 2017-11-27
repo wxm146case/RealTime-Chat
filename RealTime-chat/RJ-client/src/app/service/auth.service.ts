@@ -5,10 +5,11 @@ export class AuthService {
 
   constructor() { }
 
-  public authenticateUser(token, email, displayName):void {
+  public authenticateUser(token, email, displayName, role):void {
     localStorage.setItem('token', token);
     localStorage.setItem('email', email);
     localStorage.setItem('displayName', displayName);
+    localStorage.setItem('role', role);
   }
 
   public isUserAuthenticated(): boolean{
@@ -19,6 +20,7 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('email');
     localStorage.removeItem('displayName');
+    localStorage.removeItem('role');
   }
 
   public getToken():String {
@@ -31,6 +33,10 @@ export class AuthService {
 
   public getDisplayName():String {
     return localStorage.getItem('displayName');
+  }
+
+  public getRole():String {
+    return localStorage.getItem('role');
   }
 
 }

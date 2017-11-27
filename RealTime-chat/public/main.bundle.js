@@ -248,7 +248,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/chatroom/chatroom.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-sidenav-container>\n    <mat-sidenav #sidenav>\n        <mat-list>\n            <mat-list-item *ngFor = \"let user of users\">\n                <h3 matline>{{user}}</h3>\n                <button class = 'delete' (click) = \"deleteUser(user)\">\n                    <mat-icon>delete forever</mat-icon>\n                </button>\n            </mat-list-item>\n        </mat-list>\n    </mat-sidenav>\n  \n<button mat-fab (click)=\"sidenav.toggle()\">\n    <mat-icon>person</mat-icon>\n</button>\n<div class = 'chat-container'>\n  <mat-card-content class=\"main-card\">\n      <mat-list class=\"chat-list\">\n            <mat-list-item *ngFor = \"let notice of notices \" Class=\"chat-list-item\">                   \n                    <h5 matLine> \n                      <b>{{notice}}</b>\n                    </h5>                   \n            </mat-list-item>\n            <mat-list-item *ngFor = \"let message of messages \" [ngClass]=\"[(message.from.id === user.id)? 'chat-list-item': '']\">\n              <img matListAvatar  [src]=\"message.from.avatar\">\n              <h4 matLine> \n                <b>{{message.from.name}}</b>\n              </h4>\n              <p matLine >\n                  <span> {{message.content}} </span>                  \n              </p>\n            </mat-list-item>\n      </mat-list>\n      <div class=\"chat-footer-container\">\n          <mat-icon>message</mat-icon>\n          <mat-form-field class = 'chat-input'>\n              <input matInput \n                placeholder=\"Type your message\"\n                [(ngModel)] = \"messageContent\"\n                (keyup.enter) = \"sendMessage(messageContent)\">\n          </mat-form-field>\n      </div>\n  </mat-card-content>\n</div>\n</mat-sidenav-container>"
+module.exports = "<mat-sidenav-container>\n    <mat-sidenav #sidenav>\n        <mat-list>\n            <mat-list-item *ngFor = \"let user of users\">\n                <h3 matline>{{user}}</h3>\n                <button class = 'delete' (click) = \"deleteUser(user)\" *ngIf='userRole === adminRole'>\n                    <mat-icon>delete forever</mat-icon>\n                </button>\n            </mat-list-item>\n        </mat-list>\n    </mat-sidenav>\n  \n<button mat-fab (click)=\"sidenav.toggle()\">\n    <mat-icon>person</mat-icon>\n</button>\n<div class = 'chat-container'>\n  <mat-card-content class=\"main-card\">\n      <mat-list class=\"chat-list\">\n            <mat-list-item *ngFor = \"let notice of notices \" Class=\"chat-list-item\">                   \n                    <h5 matLine> \n                      <b>{{notice}}</b>\n                    </h5>                   \n            </mat-list-item>\n            <mat-list-item *ngFor = \"let message of messages \" [ngClass]=\"[(message.from.id === user.id)? 'chat-list-item': '']\">\n              <img matListAvatar  [src]=\"message.from.avatar\">\n              <h4 matLine> \n                <b>{{message.from.name}}</b>\n              </h4>\n              <p matLine >\n                  <span> {{message.content}} </span>                  \n              </p>\n            </mat-list-item>\n      </mat-list>\n      <div class=\"chat-footer-container\">\n          <mat-icon>message</mat-icon>\n          <mat-form-field class = 'chat-input'>\n              <input matInput \n                placeholder=\"Type your message\"\n                [(ngModel)] = \"messageContent\"\n                (keyup.enter) = \"sendMessage(messageContent)\">\n          </mat-form-field>\n      </div>\n  </mat-card-content>\n</div>\n</mat-sidenav-container>"
 
 /***/ }),
 
@@ -285,6 +285,8 @@ var ChatroomComponent = (function () {
         this.router = router;
         this.users = [];
         this.userName = null;
+        this.userRole = this.authService.getRole();
+        this.adminRole = 'admin';
         this.messages = [];
         this.notices = [];
     }
@@ -497,7 +499,7 @@ var LoginComponent = (function () {
                     password: null
                 };
                 var json = response.json();
-                _this.AuthService.authenticateUser(json.token, email, json.user.displayName);
+                _this.AuthService.authenticateUser(json.token, email, json.user.displayName, json.user.role);
                 _this.router.navigate(['']);
             }
         }).catch(function (error) {
@@ -783,10 +785,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var AuthService = (function () {
     function AuthService() {
     }
-    AuthService.prototype.authenticateUser = function (token, email, displayName) {
+    AuthService.prototype.authenticateUser = function (token, email, displayName, role) {
         localStorage.setItem('token', token);
         localStorage.setItem('email', email);
         localStorage.setItem('displayName', displayName);
+        localStorage.setItem('role', role);
     };
     AuthService.prototype.isUserAuthenticated = function () {
         return localStorage.getItem('token') !== null;
@@ -795,6 +798,7 @@ var AuthService = (function () {
         localStorage.removeItem('token');
         localStorage.removeItem('email');
         localStorage.removeItem('displayName');
+        localStorage.removeItem('role');
     };
     AuthService.prototype.getToken = function () {
         return localStorage.getItem('token');
@@ -804,6 +808,9 @@ var AuthService = (function () {
     };
     AuthService.prototype.getDisplayName = function () {
         return localStorage.getItem('displayName');
+    };
+    AuthService.prototype.getRole = function () {
+        return localStorage.getItem('role');
     };
     AuthService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),

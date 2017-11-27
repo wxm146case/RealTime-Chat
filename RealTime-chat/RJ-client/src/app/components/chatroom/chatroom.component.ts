@@ -19,6 +19,8 @@ export class ChatroomComponent implements OnInit {
   user : User;
   users : String[] = [];
   userName :String = null;
+  userRole : String = this.authService.getRole();
+  adminRole : String = 'admin';
   messages: Message[] = [];
   messageContent: string;
   notices : string[] = [];
@@ -46,7 +48,7 @@ export class ChatroomComponent implements OnInit {
 
   private initModel(): void {
     const randomId = this.getRandomId();
-    this.userName = this.authService.getDisplayName();     
+    this.userName = this.authService.getDisplayName();    
     this.user = {
       id: randomId,
       avatar: `${AVATAR_URL}/${randomId}.png`,

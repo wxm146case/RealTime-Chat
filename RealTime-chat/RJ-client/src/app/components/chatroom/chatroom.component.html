@@ -3,7 +3,7 @@
         <mat-list>
             <mat-list-item *ngFor = "let user of users">
                 <h3 matline>{{user}}</h3>
-                <button class = 'delete' (click) = "deleteUser(user)">
+                <button class = 'delete' (click) = "deleteUser(user)" *ngIf='userRole === adminRole'>
                     <mat-icon>delete forever</mat-icon>
                 </button>
             </mat-list-item>

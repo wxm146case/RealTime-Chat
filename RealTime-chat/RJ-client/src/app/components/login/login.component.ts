@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
                       password: null
                     }
                     const json = response.json();
-                    this.AuthService.authenticateUser(json.token, email, json.user.displayName);
+                    this.AuthService.authenticateUser(json.token, email, json.user.displayName, json.user.role);
                     this.router.navigate(['']);                   
                   } 
                 }).catch((error:any) => {
